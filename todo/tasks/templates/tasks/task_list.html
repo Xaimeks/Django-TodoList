@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'tasks/style.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" id="task-input" name="task" placeholder="Add a new task..." required>
+            <button type="submit">Add</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+            <li>
+                {{ task.title }}
+                <form method="POST" action="{% url 'tasks:delete_task' task.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="color:red">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html> 
